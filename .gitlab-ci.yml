@@ -1,0 +1,21 @@
+image: node:7.10.1-alpine
+
+before_script:
+  - apk update && apk upgrade && apk add --no-cache git
+  - npm install
+
+stages:
+  - pages
+
+pages:
+  stage: pages
+  cache:
+    paths:
+    - node_modules/
+  script:
+  - npm run build
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
