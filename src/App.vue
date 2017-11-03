@@ -9,51 +9,33 @@
         <li><a href="/#/sign-in">Sign in</a></li>
       </ul>
     </header>
-    <section class="welcome">
-      <img src="/static/img/dolphin.png" class="brand-logo" alt="Dolphin BI">
-      <h1>Dolphin blockchain intelligence</h1>
-      <h3>
-        The first marketplace based on a smart-contract and a platform<br>
-        for collaborative crypto-asset investment analysis
-      </h3>
-      <br>
-      <button class="hollow button large" href="https://presale.dolphin.bi/">About Dolphin BI</button>
-    </section>
-    <section class="widgets">
-      <h3>We have 6 usefull widgets</h3>
-      <div class="widgets">
-        <div class="widget" v-for="widget in widgets">
-          <div class="widget-header">{{widget.title}}</div>
-          <div class="iframe-wrapper">
-            <iframe v-if="widget.id" :src="'/apps/'+widget.url+'?id='+widget.id" frameborder="0" />
-            <iframe v-else :src="'/apps/'+widget.url" frameborder="0" />
-          </div>
-        </div>
-      </div>
-      <h4>To get more you have to sign in with</h4>
-      <div>
-        <a class="hollow button large facebook" href="/auth/facebook">Facebook</a>
-        <a class="hollow button large google" href="/auth/google">Google</a>
-      </div>
-    </section>
+    <router-view :key="$route.path" />
   </div>
 </template>
 
 
 <script>
-import axios from 'axios'
+import { mapState } from 'vuex'
+import routes from './router'
 export default {
   name: 'app',
-  data: () => ({
-    widgets: []
-  }),
-  created: function() {
-    axios.get('/dashboard/apps', {
-    }).then((response) => {
-      this.widgets = response.data.widgets
-    }, (err) => {
-      console.log(err)
-    })
+  beforeCreate: function () {
+    this.$store.dispatch('LOAD_REGISTER')
+  },
+  computed: {
+    ...mapState([
+      'pages',
+      'pageTitle',
+      'user'
+    ])
+  },
+  methods: {
+    goToPage(id, url) {
+      routes.push({ name: 'Page', params: { id: id }})
+    },
+    asideToggle() {
+      document.getElementById('layout').classList.toggle('asideOpen')
+    }
   }
 }
 </script>
