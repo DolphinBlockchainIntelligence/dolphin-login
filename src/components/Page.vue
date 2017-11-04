@@ -9,9 +9,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import Navbar from './blocks/Navbar'
 export default {
   name: 'page',
   props: ['id'],
+  components: {
+    Navbar
+  },
   computed: {
     page (state) {
       for (var i in this.pages) {
@@ -30,8 +34,10 @@ export default {
 
 <style lang="sass" scoped>
 .iframe-wrapper
-  height: calc(100vh - 68px)
+  height: calc(100vh - 76px)
   margin: 0
+  iframe
+    height: 100%
 iframe
   border: none
   height: 100%

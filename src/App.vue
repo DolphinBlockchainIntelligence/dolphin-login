@@ -2,11 +2,10 @@
   <div class="app" id="app">
     <header class="nav-wrapper">
       <ul class="nav">
-        <li><a href="/">About Dolphin BI</a></li>
+        <li><a href="/#/">About</a></li>
         <li><a href="/#/dashboard">Dashboard</a></li>
-        <li><a href="/#/sentiments">Sentiments</a></li>
-        <li><a href="/#/ico-faces">ICO faces</a></li>
-        <li><a href="/#/sign-in">Sign in</a></li>
+        <li v-for="page in pages"><a to="#" class="collection-item waves-effect waves-teal" @click.prevent="goToPage(page.id, page.url)">{{page.title}}</a></li>
+        <li><a href="/auth/facebook">Sign in</a></li>
       </ul>
     </header>
     <router-view :key="$route.path" />
@@ -42,6 +41,11 @@ export default {
 
 
 <style lang="sass">
+html, body
+  overflow-y: hidden
+.scroll-container
+  overflow-y: auto
+  height: calc(100vh - 74px)
 .nav-wrapper
   height: 74px
 .nav
